@@ -1,0 +1,57 @@
+[gd_scene load_steps=9 format=3 uid="uid://cy3f7fo7e50w2"]
+
+[ext_resource type="Script" uid="uid://cdxgtfw37kg3r" path="res://camera_3d.gd" id="1_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://d1upmvbj43p43" path="res://level_one.tscn" id="1_ig7tw"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ig7tw"]
+sky_top_color = Color(0.384314, 0.454902, 0.87451, 1)
+sky_horizon_color = Color(0.647059, 0.654902, 0.823529, 1)
+ground_bottom_color = Color(0.341878, 0.296496, 0.541257, 1)
+ground_horizon_color = Color(0.647059, 0.654902, 0.823529, 1)
+
+[sub_resource type="Sky" id="Sky_0xm2m"]
+sky_material = SubResource("ProceduralSkyMaterial_ig7tw")
+
+[sub_resource type="Environment" id="Environment_h2yge"]
+background_mode = 2
+sky = SubResource("Sky_0xm2m")
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_sky_contribution = 0.5
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_0xm2m"]
+bounce = 0.5
+
+[sub_resource type="SphereMesh" id="SphereMesh_ig7tw"]
+radius = 0.1
+height = 0.2
+radial_segments = 16
+rings = 16
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_0xm2m"]
+radius = 0.1
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.921586, 0.388175, 0, -0.388175, 0.921586, 0, 1.48344, 4.44345)
+script = ExtResource("1_0xm2m")
+
+[node name="LevelOne" parent="." instance=ExtResource("1_ig7tw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, -0.75, 0.433013, 1, 2.5, 2.5)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_h2yge")
+
+[node name="RigidBody3D" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.280706, 0.23986)
+physics_material_override = SubResource("PhysicsMaterial_0xm2m")
+metadata/_edit_group_ = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RigidBody3D"]
+mesh = SubResource("SphereMesh_ig7tw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
+shape = SubResource("SphereShape3D_0xm2m")
